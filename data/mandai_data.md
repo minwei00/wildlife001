@@ -69,6 +69,7 @@
 - **Destination Passes:** 1-Day Pass: S$118 (Adult) | 5-Day Pass: S$128 (Adult)
 
 
+
 ## 12. Recommended Itineraries
 ### Bird Paradise: Too Wild to Miss (4 Hours)
 - **Highlights:** Ocean Network Express Penguin Cove, Southern Cassowaries (Mysterious Papua), Predators on Wings presentation, Crimson Wetlands (Flamingos), Starlings feeding, Hornbill Keeper Talk.
@@ -101,3 +102,25 @@
 - **Ep 1 (Singapore Zoo/River Wonders):** Breakfast in the Wild, Giraffe feeding, Fragile Forest, Giant Pandas.
 - **Ep 2 (River Wonders/Curiosity Cove):** Capybara encounters, Amazon River Quest, Manatee feeding, Curiosity Cove indoor play.
 - **Ep 3 (Rainforest Wild ASIA/Night Safari):** High-energy forest exploration and nocturnal wildlife discovery.
+
+
+## 17. Ticket Pricing (Local Residents - Children)
+
+- **Exploria:** Reg S$25.20 | Peak  S$26
+- **Rainforest Wild Adventure:** Reg S$35.00 | Peak S$35
+- **River Wonders:** Reg S$26.40 | Peak S$29
+- **Singapore Zoo:** Reg S$27.20 | Peak S$30.60
+- **Bird Paradise:** Reg S$27.20 | Peak S$30
+- **Night Safari:** Reg S$32.80 | Peak S$36
+- **Curiosity Cove Bundle:** Reg S$43.20 | Peak S$45.60 (Package price for 1 Child + 1 Adult)
+- **Destination Passes:** 1-Day Pass: S$90 (per child) | 5-Day Pass: S$98 (per child)
+
+
+## 17.Single Attraction Prices (Standard Non-Resident)
+- **Exploria:** S$38.00 (Adult) | S$28.00 (Child/Student)
+- **Rainforest Wild Adventure:**  S$55.00 (Adult) | S$39.00 (Child aged 3 to 12)
+- **Night Safari:** Adult S$58 | Child S$41
+- **Singapore Zoo:** Adult S$49 | Child S$34
+- **Bird Paradise:** Adult S$49 | Child S$34
+- **River Wonders:** Adult S$45 | Child S$33(Note: Child tickets apply to ages 3 to 12. Children under 3 enter for free.)
+- **Multi-Attraction Destination Passes2-Park Pass:** Adult S$118 | Child S$90 (includes admission to Singapore Zoo, Bird Paradise, River Wonders, Rainforest Wild Adventure, and Night Safari with 1-day validity)

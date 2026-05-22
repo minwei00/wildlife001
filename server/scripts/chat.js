@@ -4,13 +4,14 @@ import { fileURLToPath } from "url";
 import { Pinecone } from "@pinecone-database/pinecone";
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 import { PineconeStore } from "@langchain/pinecone";
-// 1. ADD THIS IMPORT
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-async function chatWithMandai(query) {
+
+export async function chatWithMandai(query, history, attempt = 1) {
   console.log("DEBUG: Starting chatWithMandai with query:", query);
   
   try {
@@ -26,6 +27,10 @@ async function chatWithMandai(query) {
       pineconeIndex: index,
     });
 
+    const historyString = history
+    .map(msg => `${msg.role}: ${msg.content}`)
+    .join("\n");
+
     console.log("DEBUG: Searching Pinecone...");
     const results = await vectorStore.similaritySearch(query, 2);
 
@@ -37,24 +42,33 @@ async function chatWithMandai(query) {
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-    const prompt = `You are a helpful Mandai Wildlife Consultant. 
-    Answer the user question using ONLY the context provided below.
-    If the answer isn't in the context, say you don't know.
+    const prompt = `You are a helpful Mandai Wildlife Consultant.
+    Here is the conversation history:
+    ${historyString}
     
-    Context:
+    Answer the user's latest question using the context provided below:
     ${contextText}
     
     Question: ${query}`;
 
     const result = await model.generateContent(prompt);
-    console.log("\nCONSULTANT:", result.response.text());
+    const finalAnswer = result.response.text();
+    console.log("\nCONSULTANT:", finalAnswer);
     // GENERATION LOGIC ENDS HERE
+    return finalAnswer;
 
   } catch (err) {
-    console.error("DEBUG: Caught an error!");
-    console.error(err);
+    // If it's a 429 error and we haven't tried too many times
+    if (err.status === 429 && attempt <= 3) {
+      console.log(`Rate limit hit! Waiting ${attempt * 10} seconds to retry...`);
+      await sleep(attempt * 10000); // Wait 10s, 20s, 30s
+      return chatWithMandai(query, history, attempt + 1);
+    }
+    
+    console.error("DEBUG: Permanent error:", err);
+    return "The park is currently experiencing high visitor traffic. Please ask me again in a few seconds!";
   }
 }
 
 const userQuery = process.argv[2] || "What is Mandai?";
-chatWithMandai(userQuery);
+// chatWithMandai(userQuery);

@@ -49,7 +49,7 @@ const index = pinecone.Index(process.env.PINECONE_INDEX);
 const run = async () => {
   try {
     console.log("\nReading markdown file...");
-    const dataPath = path.resolve(__dirname, "../data/mandai_data.md");
+    const dataPath = path.resolve(__dirname, "../../data/mandai_data.md");
     const text = fs.readFileSync(dataPath, "utf8");
 
     const splitter = new RecursiveCharacterTextSplitter({
