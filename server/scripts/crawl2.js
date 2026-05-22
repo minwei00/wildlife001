@@ -56,7 +56,7 @@ const urlsToCrawl = [
 
 async function crawl() {
   // Clear file at the very start
-  fs.writeFileSync('mandai2.txt', ''); 
+  fs.writeFileSync('mandai.txt', ''); 
   
   const browser = await puppeteer.launch({ headless: "new" });
   const page = await browser.newPage();
