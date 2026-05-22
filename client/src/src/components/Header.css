@@ -1,0 +1,180 @@
+/* Core Layout Container with Glassmorphism Effect */
+.site-header {
+    width: 100%;
+    /* 1. Semi-transparent white background */
+    background-color: rgba(255, 255, 255, 0.08); 
+    /* 2. The glass blur effect (blurs the sky background behind it) */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); /* Safari support */
+    /* 3. Subtle translucent border instead of a heavy dark shadow */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px; /* Slightly widened padding for breathable design */
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
+
+/* Logo */
+.header-logo a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.logo-icon {
+    font-size: 1.5rem;
+}
+
+/* Logo Text - Changed from dark grey to white to match the night sky */
+.logo-text {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #ffffff; /* 🌟 Crisp white text */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+.header-logo-img {
+    height: 55px;
+    width: auto;
+    display: block;
+}
+
+/* NAV MENU (KEY FIX HERE) */
+.nav-menu {
+    margin-left: auto; /* 👈 pushes nav to right */
+}
+
+/* Nav list */
+.nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 30px;
+}
+
+/* Navigation Links - Light grey by default, turning bright green on active/hover */
+.nav-link {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.75); /* 🌟 Soft translucent white text */
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    position: relative;
+    padding: 8px 0;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #a4f4cd; /* 🌟 Uses the beautiful minty green from your title text */
+}
+
+/* Underline effect matches the active color */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #a4f4cd; 
+    transition: width 0.2s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+/* --- Hamburger Icon Base Adjustments --- */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent; /* Removes any default button backgrounds */
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+/* Make the 3 lines clean white so they don't look grey and dusty */
+.menu-toggle .bar {
+    width: 25px;
+    height: 3px;
+    background-color: #ffffff; /* 🌟 Changed to pure white */
+    transition: all 0.3s ease;
+    display: block;
+}
+
+
+/* --- MOBILE & TABLET MEDIA QUERY --- */
+@media (max-width: 768px) {
+
+    .menu-toggle {
+        display: flex; /* Reveals hamburger button */
+    }
+
+    /* Turns the boxy white card dropdown into a sleek glass side-panel */
+    .nav-menu {
+        margin-left: auto;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 220px;
+        height: calc(100vh - 70px); /* Extends panel downward cleanly */
+        
+        /* 🌟 Glassmorphism side panel matching your main top navbar */
+        background-color: rgba(13, 34, 64, 0.9); /* Dark deep slate tint so white text is highly readable */
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.25);
+        
+        transform: translateX(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav-menu.open {
+        transform: translateX(0);
+    }
+
+    .nav-list {
+        flex-direction: column;
+        padding: 40px 24px;
+        gap: 25px;
+        align-items: flex-start;
+    }
+
+    /* Fixes layout links inside mobile dropdown view */
+    .nav-link {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 1.1rem;
+        width: 100%;
+        display: block;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        color: #a4f4cd; /* Minty green accent */
+        padding-left: 4px; /* Tiny dynamic shift on active state */
+    }
+
+    .header-actions {
+        display: none;
+    }
+}
