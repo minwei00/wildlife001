@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/MINwei00/mandai-ai-consultant#readme",
   "dependencies": {
+    "@langchain/google-genai": "^2.1.31",
     "@langchain/openai": "^1.4.7",
     "@langchain/pinecone": "^1.0.3",
     "@langchain/textsplitters": "^1.0.1",
