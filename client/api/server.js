@@ -1,3 +1,4 @@
+import 'dotenv/config'
 console.log("DEBUG: Server script is starting...");
 import express from 'express';
 import path from 'path';
@@ -7,8 +8,20 @@ import { chatWithMandai } from './chat.js';
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static(process.cwd()));
+// app.use(express.static(process.cwd()));
+import { fileURLToPath } from 'url';
 
+// Setup __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files from the 'dist' folder (which will be created in 'client/')
+app.use(express.static(path.join(__dirname, '../dist')));
+
+// IMPORTANT: This handles React Router/Single Page Application routing
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+});
 // In a real production app, use a database. 
 // For now, this in-memory store keeps your state alive while the server runs.
 let chatHistory = [];
