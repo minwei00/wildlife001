@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 import cors from 'cors';
-import { chatWithMandai } from './scripts/chat.js'; 
+import { chatWithMandai } from './chat.js'; 
 
 const app = express();
 app.use(cors());
@@ -42,5 +42,5 @@ app.post('/api/chat', async (req, res) => {
     res.status(500).json({ error: "Server error: Unable to process request." });
   }
 });
-
-app.listen(5000, () => console.log("Backend running on port 5000"));
+module.exports = app;
+//app.listen(5000, () => console.log("Backend running on port 5000"));

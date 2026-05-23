@@ -114,3 +114,9 @@ node server/server.js
 
 # In a separate terminal, start the frontend
 cd client && npm run dev
+
+# Copy the Local link to test on browser
+  ➜  Local:   http://localhost:5173/
+
+## 6. Note
+Attention if get "The park is currently experiencing high visitor traffic. Please ask me again in a few seconds!" means API quota is already reached. I use free tier. 

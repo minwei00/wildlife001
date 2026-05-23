@@ -7,12 +7,19 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@react-three/drei": "9.92.5",
-    "@react-three/fiber": "8.15.19",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-markdown": "^10.1.0",
-    "three": "0.160.0"
+    "three": "0.160.0",
+    "@react-three/drei": "9.92.5",
+    "@react-three/fiber": "8.15.19",
+    "express": "^4.21.0",
+    "dotenv": "^17.4.2",
+    "@langchain/google-genai": "^2.1.31",
+    "@langchain/pinecone": "^1.0.3",
+    "@langchain/textsplitters": "^1.0.1",
+    "@pinecone-database/pinecone": "^5.1.2",
+    "langchain": "^1.4.2"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
