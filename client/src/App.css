@@ -1,14 +1,17 @@
 /* Reset defaults */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&display=swap');
+
+
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 body, html, #root {
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: auto; 
 }
 
 .main-app-container {
@@ -24,32 +27,50 @@ body, html, #root {
 }
 
 h1 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 2.5rem;
+  text-align: center;
   margin-bottom: 20px;
-  color: black;
+  letter-spacing: -1px;
+  
+  /* Gradient */
+  background: linear-gradient(to right, #F9D423, #43C6AC); 
+  
+  /* The Fix: Include both prefixed and standard properties */
+  -webkit-background-clip: text;
+  background-clip: text; 
+  
+  /* Text fill color */
+  -webkit-text-fill-color: transparent;
+  
+  /* Shadow */
+  filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2));
 }
 
-/* --- New Layout Structure --- */
+/* --- Layout Structure --- */
 
-/* Container for the whole layout */
 .main-chat-layout {
   display: flex;
   flex-direction: column; 
   width: 90%;
   max-width: 800px;
-  height: 60vh; 
+  flex: 1; /* Automatically takes all space between header and footer */
+  min-height: 0; /* Important: Allows the container to shrink to fit */
   margin-top: 20px;
+  overflow: hidden; /* Clips children so they respect the scroll container */
 }
-
 /* The history area that scrolls */
 .chat-history-container {
-  flex-grow: 1;
-  overflow-y: auto;
+  flex: 1; 
+  overflow-y: auto; /* This enables the vertical scrollbar */
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-bottom: 20px;
+  padding-right: 10px;
+  /* Ensure this has space to grow */
+  min-height: 0; 
 }
-
 /* The "Active" row where the bear stays on the left */
 .bear-and-response-row {
   display: flex;
@@ -78,6 +99,13 @@ h1 {
   border-radius: 20px;
   color: white;
   max-width: 500px;
+}
+
+/* Specific fix for bot bubble in the active row */
+.bear-and-response-row .chat-bubble.bot {
+  min-width: 200px; 
+  width: fit-content;
+  display: block;
 }
 
 .chat-bubble.user { align-self: flex-end; background: rgba(0, 150, 255, 0.3); }

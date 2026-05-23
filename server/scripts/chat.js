@@ -36,8 +36,11 @@ export async function chatWithMandai(userId,query, history, attempt = 1, userPro
   
   // GREETING LOGIC: If it's a returning user, inject the summary into the prompt
   let greeting = "";
-  if (session) {
-    greeting = `Greeting: "Nice seeing you again! I remember we last talked about: ${session.lastSummary}.What would you like to know now?"`;
+  if (session && (!history || history.length === 0)) {
+    greeting = `System Instruction: You are a Mandai Wildlife Consultant. The user has visited before and last discussed: "${session.lastSummary}". 
+    Greet them warmly acknowledging this, then answer the following question.`;
+  } else {
+    greeting = "System Instruction: You are a Mandai Wildlife Consultant. Answer the following question directly and concisely without conversational filler.";
   }
   try {
     const pinecone = new Pinecone({ apiKey: process.env.PINECONE_API_KEY });
@@ -79,6 +82,11 @@ export async function chatWithMandai(userId,query, history, attempt = 1, userPro
     Context: ${contextText}
     
     INSTRUCTIONS:
+    You are the Mandai Wildlife Consultant. 
+    - Keep your responses concise and friendly.
+    - If the user asks for information, use bullet points for readability.
+    - If the information is long, summarize it into a "Quick Facts" section at the end.
+    - If the user says "summarize," provide a 2-3 sentence high-level summary only
     - If the CONTEXT contains enough information, answer directly.
     - If the CONTEXT is insufficient or irrelevant, you are authorized to use the 'googleSearch' tool to find real-time information.
     - If using 'googleSearch', provide citations or sources for your findings.
