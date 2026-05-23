@@ -1,3 +1,4 @@
+console.log("DEBUG: Server script is starting...");
 import express from 'express';
 import path from 'path';
 import cors from 'cors';
