@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-
-
-:root{
-  --box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -18,5 +12,11 @@
 body, html {
   width: 100%;
   height: 100%;
-  overflow: hidden; /* This kills the scroll bars */
+  overflow: hidden; /* This prevents the page from scrolling/creating white space */
 }
+
+:root{
+  --box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+

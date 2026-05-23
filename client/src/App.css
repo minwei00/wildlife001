@@ -1,5 +1,18 @@
+/* Reset defaults */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 .main-app-container {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,37 +20,75 @@
   background-image: url('/morning.png');
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
-.input-and-bear-wrapper {
+h1 {
+  margin-bottom: 20px;
+  color: black;
+}
+
+/* --- New Layout Structure --- */
+
+/* Container for the whole layout */
+.main-chat-layout {
   display: flex;
-  align-items: center;
-  gap: 15px;
+  flex-direction: column; 
   width: 90%;
-  max-width: 600px;
-  margin-top: auto; 
-  margin-bottom: 30px;
+  max-width: 800px;
+  height: 60vh; 
+  margin-top: 20px;
 }
 
-.bear-avatar-small {
-  width: 80px; 
-  height: 80px;
+/* The history area that scrolls */
+.chat-history-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+/* The "Active" row where the bear stays on the left */
+.bear-and-response-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  flex-shrink: 0; 
+}
+
+/* Bear styling */
+.bear-avatar-full {
+  width: 150px; 
+  height: 200px; 
   flex-shrink: 0;
 }
 
-.bear-avatar-small canvas {
+.bear-avatar-full canvas {
   width: 100% !important;
   height: 100% !important;
 }
 
+/* Chat bubble styling */
 .chat-bubble {
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   padding: 20px;
   border-radius: 20px;
   color: white;
-  margin-top: 20px;
   max-width: 500px;
+}
+
+.chat-bubble.user { align-self: flex-end; background: rgba(0, 150, 255, 0.3); }
+.chat-bubble.bot { align-self: flex-start; background: rgba(255, 255, 255, 0.2); }
+
+/* Bottom Input Wrapper */
+.input-area-wrapper {
+  margin-top: auto;
+  width: 90%;
+  max-width: 600px;
+  margin-bottom: 30px;
 }
 
 .input-area {
@@ -48,7 +99,7 @@
   display: flex;
   align-items: center;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  flex-grow: 1;
+  width: 100%;
 }
 
 input {
@@ -59,17 +110,18 @@ input {
   padding: 10px;
   outline: none;
 }
+
 .input-area button {
-  background: rgba(255, 255, 255, 0.2); /* Matches the bubble opacity */
+  background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
   padding: 8px 20px;
-  border-radius: 20px; /* Rounded corners to match the pill shape */
+  border-radius: 20px;
   cursor: pointer;
   margin-left: 10px;
   transition: background 0.3s ease;
 }
 
 .input-area button:hover {
-  background: rgba(255, 255, 255, 0.4); /* Slight highlight on hover */
+  background: rgba(255, 255, 255, 0.4);
 }

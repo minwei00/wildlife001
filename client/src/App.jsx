@@ -1,38 +1,25 @@
 import React, { useState } from 'react';
-import ReactMarkdown from 'react-markdown'; 
+import ReactMarkdown from 'react-markdown';
 import './App.css';
-import RobotCanvas from './components/Robot'; 
+import RobotCanvas from './components/Robot';
 
 function App() {
-  
-  const [response, setResponse] = useState("Hello! I am your Mandai Wildlife Consultant. How can I help you today?");
+  // const [response, setResponse] = useState("Hello! I am your Mandai Wildlife Consultant. How can I help you today?");
+  const [messages, setMessages] = useState([
+  { id: 1, sender: 'bot', text: 'Hello! I am your Mandai Wildlife Consultant. How can I help you today?' }
+]);
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState("");
-  const [background, setBackground] = useState('morning.png');
-  // const callGemini = async (userInput) => {
-  //   if (!userInput.trim()) return;
-    
-  //   setLoading(true);
-  //   try {
-  //     const res = await fetch("http://localhost:5000/api/chat", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ message: userInput }),
-  //     });
-      
-  //     const data = await res.json();
-  //     setResponse(data.reply);
-  //     setInput("");
-  //   } catch (err) {
-  //     setResponse("I'm having trouble connecting to the park database!");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-const callGemini = async (userInput) => {
+
+  const callGemini = async (userInput) => {
     if (!userInput.trim()) return;
-    
+
+    // 1. Add user message to UI immediately
+    const newUserMessage = { id: Date.now(), sender: 'user', text: userInput };
+    setMessages(prev => [...prev, newUserMessage]);
+    setInput(""); // Clear input bar
     setLoading(true);
+
     try {
       const res = await fetch("http://localhost:5000/api/chat", {
         method: "POST",
@@ -42,138 +29,109 @@ const callGemini = async (userInput) => {
           userId: "guest_user" 
         }),
       });
-      
+
       if (!res.ok) throw new Error("Server error");
       
       const data = await res.json();
-      setResponse(data.reply);
-      setInput("");
+      
+      // 2. Add bot reply to UI
+      const newBotMessage = { id: Date.now() + 1, sender: 'bot', text: data.reply };
+      setMessages(prev => [...prev, newBotMessage]);
+
     } catch (err) {
-      setResponse("I'm having trouble connecting!");
+      console.error("Fetch error:", err);
+      setMessages(prev => [...prev, { id: Date.now(), sender: 'bot', text: "I'm having trouble connecting to the zoo server!" }]);
     } finally {
       setLoading(false);
     }
   };
-  return (
-    // Flex container to center everything on the screen
-
-<div className="main-app-container">
-  <h1>Mandai Wildlife Consultant</h1>
-  
-  {/* Existing Chat Bubble section */}
-  <div className="chat-bubble">
-    <ReactMarkdown>{response}</ReactMarkdown>
-  </div>
-
-  {/* NEW: Wrapper for Bear + Input Field */}
-<div className="input-and-bear-wrapper">
-    <div className="bear-avatar-small">
-      <RobotCanvas />
-    </div>
-    
-    <div className="input-area">
-      <input 
-        value={input} 
-        onChange={(e) => setInput(e.target.value)} 
-        placeholder="Ask me anything..."
-      />
-      <button onClick={() => callGemini(input)}>Send</button>
-    </div>
-  </div>
-</div>
-    //     <div className="main-app-container" style={{ 
-    //       minHeight: '100vh',         // Correct: camelCase and string value
-    //       width: '100vw',             // Correct
-    //       backgroundImage: "url('/morning.png')", // Correct
-    //       backgroundSize: 'cover',    // Correct
-    //       backgroundPosition: 'center', 
-    //       backgroundAttachment: 'fixed', 
-    //       backgroundRepeat: 'no-repeat',
-    //       display: 'flex',
-    //       flexDirection: 'column',
-    //       alignItems: 'center',
-    //       overflow: 'hidden', 
-    //       margin: 0,                  // Numbers don't need quotes
-    //       padding: 0 
-    //     }}>
-    //     <h1>Mandai Wildlife Consultant</h1>
-
-    //     {/* This is the new Presentation Partner section */}
-    //     <div className="chat-presentation-wrapper">
-    //       <div className="bear-avatar">
-    //         <RobotCanvas />
-    //       </div>
-    //       <div className="chat-bubble">
-    //         <ReactMarkdown>{response}</ReactMarkdown>
-    //       </div>
-    //     </div>
-
-    //     {/* The Input Area */}
-    //     <div className="input-area" style={{ marginTop: '20px' }}>
-    //       <input 
-    //         value={input} 
-    //         onChange={(e) => setInput(e.target.value)} 
-    //         placeholder="Ask me anything..."
-    //       />
-    //       <button onClick={() => callGemini(input)}>Send</button>
-    //     </div>
-    //   </div>
-    // );
-    //     <div style={{ 
-//       display: 'flex', 
-//       flexDirection: 'column', 
-//       alignItems: 'center', 
-//       justifyContent: 'center', 
-//       minHeight: '100vh', 
-//       fontFamily: 'sans-serif',
-//       padding: '20px',
-//       backgroundImage: `url('/${background}')`,
-//       backgroundSize: 'cover',
-//       backgroundPosition: 'center',
-//       backgroundRepeat: 'no-repeat',
-//       transition: 'background-image 0.5s ease-in-out'
-//     }}>
+//   return (
+//     <div className="main-app-container">
 //       <h1>Mandai Wildlife Consultant</h1>
-      
-//       {/* Robot container: Centered and fixed size */}
-//       <div style={{ width: '100%', maxWidth: '500px', height: '400px' }}>
-//         <RobotCanvas />
-//       </div>
 
-//       <div style={{ width: '100%', maxWidth: '600px', margin: '20px 0', padding: '15px', border: '1px solid #ccc', borderRadius: '8px' }}>
-//         {loading ? (
-//           <p>Ranger is thinking...</p>
-//         ) : (
-//           <div className="chat-message">
-//             <ReactMarkdown>
-//               {response}
-//             </ReactMarkdown>
-//           </div>
-//         )}
-//       </div>
-
-//       <div>
-//         <input 
-//           type="text" 
-//           value={input} 
-//           onChange={(e) => setInput(e.target.value)} 
-//           placeholder="Ask me anything..."
-//           disabled={loading}
-//           style={{ padding: '8px', width: '250px' }}
-//         />
+//       {/* Main Layout Container */}
+//       <div className="main-chat-layout">
         
-//         <button 
-//           disabled={loading} 
-//           onClick={() => callGemini(input)}
-//           style={{ padding: '8px 16px', marginLeft: '10px' }}
-//         >
-//           Send
-//         </button>
+// {/* 1. Scrollable History */}
+//       <div className="chat-history-container">
+//         {messages.slice(0, -1).map((msg) => (
+//           <div key={msg.id} className={`chat-bubble ${msg.sender}`}>
+//             <ReactMarkdown>{msg.text}</ReactMarkdown>
+//           </div>
+//         ))}
+//       </div>
+
+//       {/* 2. Fixed Bear + Latest Message */}
+//       <div className="bear-and-response-row">
+//         <div className="bear-avatar-full">
+//           <RobotCanvas />
+//         </div>
+//         {/* Add conditional class here: if it's the user, hide the bear or style differently */}
+//         <div className={`chat-bubble ${messages[messages.length - 1].sender}`}>
+//           <ReactMarkdown>
+//             {messages[messages.length - 1].text}
+//           </ReactMarkdown>
+//         </div>
+//       </div>
+//     </div>
+//       {/* Bottom Input Area */}
+//       <div className="input-area-wrapper">
+//         <div className="input-area">
+//           <input 
+//             value={input} 
+//             onChange={(e) => setInput(e.target.value)} 
+//             onKeyDown={(e) => e.key === 'Enter' && callGemini(input)}
+//             placeholder="Ask me anything..."
+//           />
+//           <button onClick={() => callGemini(input)}>Send</button>
+//         </div>
 //       </div>
 //     </div>
 //   );
-// }
-  )
-  }
+return (
+    <div className="main-app-container">
+      <h1>Mandai Wildlife Consultant</h1>
 
+      {/* Main Layout Container */}
+      <div className="main-chat-layout">
+        
+        {/* 1. Scrollable History: Show ONLY previous messages (exclude the last one) */}
+        <div className="chat-history-container">
+          {messages.slice(0, -1).map((msg) => (
+            <div key={msg.id} className={`chat-bubble ${msg.sender}`}>
+              <ReactMarkdown>{msg.text}</ReactMarkdown>
+            </div>
+          ))}
+        </div>
+
+        {/* 2. Fixed Bear Row: This ONLY shows the last message if it's from the bot */}
+        {messages[messages.length - 1].sender === 'bot' && (
+          <div className="bear-and-response-row">
+            <div className="bear-avatar-full">
+              <RobotCanvas />
+            </div>
+            <div className="chat-bubble bot">
+              <ReactMarkdown>
+                {messages[messages.length - 1].text}
+              </ReactMarkdown>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Bottom Input Area */}
+      <div className="input-area-wrapper">
+        <div className="input-area">
+          <input 
+            value={input} 
+            onChange={(e) => setInput(e.target.value)} 
+            onKeyDown={(e) => e.key === 'Enter' && callGemini(input)}
+            placeholder="Ask me anything..."
+          />
+          <button onClick={() => callGemini(input)}>Send</button>
+        </div>
+      </div>
+    </div>
+  );
+ }
 export default App;
