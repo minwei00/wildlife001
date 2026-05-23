@@ -42,5 +42,9 @@ app.post('/api/chat', async (req, res) => {
     res.status(500).json({ error: "Server error: Unable to process request." });
   }
 });
-module.exports = app;
+// module.exports = app;
 //app.listen(5000, () => console.log("Backend running on port 5000"));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
