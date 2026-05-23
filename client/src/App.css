@@ -59,3 +59,17 @@ input {
   padding: 10px;
   outline: none;
 }
+.input-area button {
+  background: rgba(255, 255, 255, 0.2); /* Matches the bubble opacity */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px; /* Rounded corners to match the pill shape */
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background 0.3s ease;
+}
+
+.input-area button:hover {
+  background: rgba(255, 255, 255, 0.4); /* Slight highlight on hover */
+}
