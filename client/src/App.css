@@ -1,0 +1,61 @@
+.main-app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-image: url('/morning.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.input-and-bear-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 90%;
+  max-width: 600px;
+  margin-top: auto; 
+  margin-bottom: 30px;
+}
+
+.bear-avatar-small {
+  width: 80px; 
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.bear-avatar-small canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.chat-bubble {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 20px;
+  color: white;
+  margin-top: 20px;
+  max-width: 500px;
+}
+
+.input-area {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 30px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  flex-grow: 1;
+}
+
+input {
+  background: transparent;
+  border: none;
+  color: white;
+  flex-grow: 1;
+  padding: 10px;
+  outline: none;
+}
