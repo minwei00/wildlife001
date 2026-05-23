@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import RobotCanvas from './components/Robot'; // Import your component
+import ReactMarkdown from 'react-markdown'; 
+import RobotCanvas from './components/Robot'; 
 
 function App() {
   const [response, setResponse] = useState("Hello! I am your Mandai Wildlife Consultant. How can I help you today?");
@@ -46,7 +47,15 @@ function App() {
       </div>
 
       <div style={{ width: '100%', maxWidth: '600px', margin: '20px 0', padding: '15px', border: '1px solid #ccc', borderRadius: '8px' }}>
-        <p>{loading ? "Ranger is thinking..." : response}</p>
+        {loading ? (
+          <p>Ranger is thinking...</p>
+        ) : (
+          <div className="chat-message">
+            <ReactMarkdown>
+              {response}
+            </ReactMarkdown>
+          </div>
+        )}
       </div>
 
       <div>

@@ -15,7 +15,7 @@ function Model() {
     }
   }, [actions]);
 
-  return <primitive object={scene} />;
+  return <primitive object={scene} scale={[8,9,9]} />;
 }
 
 export default function RobotCanvas() {
