@@ -5,7 +5,7 @@ import RobotCanvas from './components/robot';
 
 function App() {
   const [messages, setMessages] = useState([
-    { id: 1, sender: 'bot', text: 'Hello! I am your Mandai Wildlife Consultant. How can I help you today?' }
+    { id: 1, sender: 'bot', text: 'Hello! I am Barnaby! Your Mandai Wildlife Guide. How can I help you today?' }
   ]);
   const botSound = useRef(new Audio('/bot-reply.mp4'));
   useEffect(() => {
@@ -56,7 +56,7 @@ function App() {
 
   return (
     <div className="main-app-container">
-      <h1>Mandai Wildlife Consultant</h1>
+      <h1>Ask Barnaby!</h1>
 
       <div className="main-chat-layout">
         {/* Scrollable History: Show everything except the absolute latest message */}

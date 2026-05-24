@@ -37,7 +37,7 @@ Your application follows a client-server architecture with a Node.js backend han
     *   **`gemini-2.5-flash`:** This is the primary model used for generating chat responses. It's configured to use the `googleSearch` tool.
 *   **Role of the LLM:** The LLM acts as a "Mandai Wildlife Consultant," providing information and answering user questions about Mandai Wildlife.
 *   **System Instructions/Context:**
-    *   A primary system instruction sets the persona: "You are a Mandai Wildlife Consultant."
+    *   A primary system instruction sets the persona: "You are a Mandai Wildlife Guide."
     *   For returning users with session history, a personalized greeting is injected, acknowledging their last discussed topic.
     *   General instructions emphasize direct and concise answers, using bullet points for readability, summarizing long information into "Quick Facts," and providing a 2-3 sentence high-level summary if the user explicitly asks to "summarize."
     *   Crucially, the LLM is explicitly authorized to use the `googleSearch` tool if the provided context is insufficient or irrelevant, with a directive to provide citations or sources for findings from Google Search.
