@@ -2,12 +2,12 @@
 
 ## 1. Overall Architecture
 
-Your application follows a client-server architecture with a Node.js backend handling AI logic and data retrieval, and a frontend (likely in the `client/` directory) interacting with this backend.
+The application follows a client-server architecture with a Node.js backend handling AI logic and data retrieval, and a frontend (in the `client/api` directory) interacting with this backend.
 
-*   **Frontend Components:** (Assumed from `client/` directory). This would be the user interface that sends queries to the backend.
+*   **Frontend Components:** (From `client/src`, `client/src/components`, `client/index.html` directory). These would be the user interface that sends queries to the backend.
 *   **Backend Services:**
-    *   **Node.js Server (`server.js`):** The main entry point for your backend, which presumably exposes an API endpoint that calls `chatWithMandai`.
-    *   **AI/Data Retrieval Logic (`server/scripts/chat.js`, `server/scripts/ingest.js`):**
+    *   **Node.js Server (`client/api/chat.js`):** The main entry point for your backend, which presumably exposes an API endpoint that calls `chatWithMandai`.
+    *   **AI/Data Retrieval Logic (`client/api/chat.js`, `client/api/ingest.js`):**
         *   `ingest.js`: Responsible for processing raw data, chunking, generating embeddings, and uploading them to Pinecone. This runs as a standalone script.
         *   `chat.js`: Handles incoming user queries, retrieves relevant context from Pinecone, constructs a prompt, interacts with the Google Generative AI LLM, and manages user sessions.
 *   **Database(s):**
@@ -18,7 +18,7 @@ Your application follows a client-server architecture with a Node.js backend han
     *   **Pinecone API:** Used for interacting with your Pinecone vector index.
     *   **Google Search Tool:** Integrated with the `gemini-2.5-flash` model for real-time information retrieval when the internal context is insufficient.
 *   **Interaction Flow:**
-    1.  **Data Ingestion (Offline):** The `ingest.js` script is run to process `mandai_data.md`, chunk it, embed it using `GoogleGenerativeAIEmbeddings`, and store these in Pinecone.
+    1.  **Data Ingestion (Offline):** The `ingest.js` script is run to process `data/mandai_data.md`, chunk it, embed it using `GoogleGenerativeAIEmbeddings`, and store these in Pinecone.
     2.  **User Query:** A user submits a query via the frontend to the backend server.
     3.  **Backend Processing (`chatWithMandai`):**
         *   Checks for existing user session data in `user_sessions.json`.
@@ -37,7 +37,7 @@ Your application follows a client-server architecture with a Node.js backend han
     *   **`gemini-2.5-flash`:** This is the primary model used for generating chat responses. It's configured to use the `googleSearch` tool.
 *   **Role of the LLM:** The LLM acts as a "Mandai Wildlife Consultant," providing information and answering user questions about Mandai Wildlife.
 *   **System Instructions/Context:**
-    *   A primary system instruction sets the persona: "You are a Mandai Wildlife Guide."
+    *   A primary system instruction sets the persona: "You are Barnaby, a Mandai Wildlife Guide."
     *   For returning users with session history, a personalized greeting is injected, acknowledging their last discussed topic.
     *   General instructions emphasize direct and concise answers, using bullet points for readability, summarizing long information into "Quick Facts," and providing a 2-3 sentence high-level summary if the user explicitly asks to "summarize."
     *   Crucially, the LLM is explicitly authorized to use the `googleSearch` tool if the provided context is insufficient or irrelevant, with a directive to provide citations or sources for findings from Google Search.
@@ -47,7 +47,7 @@ Your application follows a client-server architecture with a Node.js backend han
     *   Conversation history (`historyString`).
     *   User profile (`JSON.stringify(userProfile)`).
     *   Retrieved context from Pinecone (`contextText`).
-    *   A clear set of `INSTRUCTIONS` for the consultant's behavior.
+    *   A clear set of `INSTRUCTIONS` for Barnaby's behavior.
     *   The user's `Question`.
 *   **Tool Usage:** The `gemini-2.5-flash` model is configured with `tools: [{ googleSearch: {} }]`, enabling it to perform real-time web searches.
 
@@ -94,29 +94,34 @@ Your application follows a client-server architecture with a Node.js backend han
 
 ## 5. Getting Started
 
-### Installation
 ```bash
-```bash
-# 1. Install root dependencies
+-- Installation
+# 1. Move into the project directory
+cd client
+
+# 2. Install all dependencies (frontend & backend)
 npm install
 
-# 2. Install client-side dependencies
-cd client && npm install
+--  Running the Project
+# 1. Run the ingestion script (if needed)
+cd client/api
+node ingest.js
 
-# 3. Install server-side dependencies
-cd ../server && npm install
+# 2. Start the backend server
+# From the root directory
+cd client/api
+node server.js
 
-# Run the ingestion script to populate Pinecone
-node server/scripts/ingest.js
+# 3. In a separate terminal, start the frontend
+# From the root directory
+cd client
+npm run dev
 
-# Start the backend server
-node server/server.js
-
-# In a separate terminal, start the frontend
-cd client && npm run dev
 
 # Copy the Local link to test on browser
   ➜  Local:   http://localhost:5173/
 
 ## 6. Note
-Attention if get "The park is currently experiencing high visitor traffic. Please ask me again in a few seconds!" means API quota is already reached. I use free tier. 
+Production Link : https://mandai-ai-consultant-copy.onrender.com/
+## Attention ## 
+if get "The park is currently experiencing high visitor traffic. Please ask me again in a few seconds!" means API quota is already reached. I use free tier. 
