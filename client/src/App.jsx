@@ -86,10 +86,16 @@ function App() {
           <input 
             value={input} 
             onChange={(e) => setInput(e.target.value)} 
-            onKeyDown={(e) => e.key === 'Enter' && callGemini(input)}
-            placeholder="Ask me anything..."
+            onKeyDown={(e) => e.key === 'Enter' && !loading && callGemini(input)}
+            placeholder={loading ? "Barnaby is thinking..." : "Ask me anything..."}
+            disabled={loading}
           />
-          <button onClick={() => callGemini(input)}>Send</button>
+          <button 
+          onClick={() => callGemini(input)} 
+          disabled={loading}
+        >
+          {loading ? "Barnaby is thinking..." : "Ask Barnaby!"}
+        </button>
         </div>
       </div>
     </div>
