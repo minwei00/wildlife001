@@ -31,31 +31,49 @@ app.post('/api/chat', async (req, res) => {
     // Extracting fields from body
     const { userId, message, history, userProfile } = req.body;
 
-    // 1. CLEAN INPUTS: Ensure message is treated as a string and history as an array
+    // 1. CLEAN INPUTS
     const userQuery = typeof message === 'string' ? message : message.content;
     const currentHistory = history || chatHistory; 
 
     console.log("Received message:", userQuery);
     console.log("For user:", userId);
 
-    // 2. CALL AGENTIC WORKFLOW: Passing all required parameters
+    // 2. CALL AGENTIC WORKFLOW
     const response = await chatWithMandai(userId, userQuery, currentHistory, 1, userProfile);
     
     console.log("Gemini response:", response);
 
-    // 3. UPDATE MEMORY: Keep track of the conversation
+    // 3. UPDATE MEMORY
     currentHistory.push({ role: "user", content: userQuery });
     currentHistory.push({ role: "assistant", content: response });
-    
-    // Update global state if not using a DB
     chatHistory = currentHistory;
 
     res.json({ answer: response });
-  } catch (error) {
-    console.error("Backend Error:", error);
+
+  } catch (error) { // The catch must be attached to the try block INSIDE the function
+    console.error("--- DETAILED GEMINI ERROR LOG ---");
+
+    const errorDetails = error.error || error;
+    const reason = errorDetails.errors ? errorDetails.errors[0].reason : "No reason provided";
+    const message = errorDetails.message || error.message || "No message";
+
+    console.error(`Error Code: ${errorDetails.code || error.status}`);
+    console.error(`Reason: ${reason}`);
+    console.error(`Full Message: ${message}`);
+
+    if (error.status === 429 || (errorDetails && errorDetails.code === 429)) {
+        console.warn(`DEBUG: Quota limit hit! Reason: ${reason}`);
+        
+        return res.status(429).json({ 
+            error: "Quota exceeded",
+            reason: reason,
+            details: message
+        });
+    }
+
     res.status(500).json({ error: "Server error: Unable to process request." });
   }
-});
+}); // This closing bracket and parenthesis ends the app.post route
 // module.exports = app;
 //app.listen(5000, () => console.log("Backend running on port 5000"));
 const PORT = process.env.PORT || 3000;
