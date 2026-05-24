@@ -15,9 +15,9 @@ https://mandai-ai-consultant-copy.onrender.com/
 
     This application is powered by the Google Gemini API (Free Tier). Because of this, please be aware of the following:
 
-    🚀 Cold Starts: If the application has been inactive, it may take 30–60 seconds to "wake up" upon your first visit.
+    **Cold Starts**: If the application has been inactive, it may take 30–60 seconds to "wake up" upon your first visit.
 
-    ⏳ API Quotas: If you see the message: "The park is currently experiencing high visitor traffic. Please ask me again in a few seconds!", it simply means the API limit has been reached. Please wait a brief moment and try again.
+    **API Quotas**: If you see the message: "The park is currently experiencing high visitor traffic. Please ask me again in a few seconds!", it simply means the API limit has been reached. Please wait a brief moment and try again.
 
 4. **Getting Started**
 
