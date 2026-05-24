@@ -53,7 +53,6 @@ function App() {
       
     } catch (err) {
       console.error("Fetch error:", err);
-      // Optional: Add a friendly error message to the chat so the user knows something happened
       setMessages(prev => [
         ...prev, 
         { id: Date.now(), sender: 'bot', text: "Sorry, Barnaby is having trouble connecting to the server!" }
@@ -63,37 +62,12 @@ function App() {
     }
   };
 
-//   try {
-//     const res = await fetch("/api/chat", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ message: userInput, userId: "guest_user" }),
-//     });
-
-//     const data = await res.json();
-//     console.log("Data received from backend:", data); // Check F12 Console for this!
-
-//     // Force a fresh array reference to guarantee a re-render
-//     setMessages(prev => {
-//       const nextMessages = [...prev, { 
-//         id: Date.now() + Math.random(), 
-//         sender: 'bot', 
-//         text: data.answer
-//       }];
-//       return nextMessages;
-//     });
-    
-//   } catch (err) {
-//     console.error("Fetch error:", err);
-//   } finally {
-//     setLoading(false);
-//   }
-// };
 
   return (
     <div className="main-app-container">
       <h1>Ask Barnaby!</h1>
 
+  
       <div className="main-chat-layout">
         {/* Scrollable History: Show everything except the absolute latest message */}
         <div className="chat-history-container">

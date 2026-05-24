@@ -63,7 +63,7 @@ h1 {
 /* The history area that scrolls */
 .chat-history-container {
   flex: 1; 
-  overflow-y: auto; /* This enables the vertical scrollbar */
+  overflow-y: auto; 
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -71,7 +71,7 @@ h1 {
   /* Ensure this has space to grow */
   min-height: 0; 
 }
-/* The "Active" row where the bear stays on the left */
+
 .bear-and-response-row {
   display: flex;
   align-items: flex-start;

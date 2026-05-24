@@ -61,7 +61,7 @@ async function crawl() {
   const browser = await puppeteer.launch({ headless: "new" });
   const page = await browser.newPage();
   
-  // Set User-Agent to look like a real browser
+  // Set User-Agent to look like a real browser so can verify it is a legitimate browser
   await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36');
 
   for (const url of urlsToCrawl) {

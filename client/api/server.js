@@ -8,7 +8,6 @@ import { chatWithMandai } from './chat.js';
 const app = express();
 app.use(cors());
 app.use(express.json());
-// app.use(express.static(process.cwd()));
 import { fileURLToPath } from 'url';
 
 // Setup __dirname for ES modules
@@ -22,8 +21,7 @@ app.use(express.static(path.join(__dirname, '../dist')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist', 'index.html'));
 });
-// In a real production app, use a database. 
-// For now, this in-memory store keeps your state alive while the server runs.
+// This is in-memory store keeps your state alive while the server runs.
 let chatHistory = [];
 
 app.post('/api/chat', async (req, res) => {
@@ -50,7 +48,7 @@ app.post('/api/chat', async (req, res) => {
 
     res.json({ answer: response });
 
-  } catch (error) { // The catch must be attached to the try block INSIDE the function
+  } catch (error) { 
     console.error("--- DETAILED GEMINI ERROR LOG ---");
 
     const errorDetails = error.error || error;
@@ -73,9 +71,8 @@ app.post('/api/chat', async (req, res) => {
 
     res.status(500).json({ error: "Server error: Unable to process request." });
   }
-}); // This closing bracket and parenthesis ends the app.post route
-// module.exports = app;
-//app.listen(5000, () => console.log("Backend running on port 5000"));
+}); 
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

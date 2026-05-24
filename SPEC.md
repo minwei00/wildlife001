@@ -4,7 +4,7 @@
 
 The application follows a client-server architecture with a Node.js backend handling AI logic and data retrieval, and a frontend (in the `client/api` directory) interacting with this backend.
 
-*   **Frontend Components:** (From `client/src`, `client/src/components`, `client/index.html` directory). These would be the user interface that sends queries to the backend.
+*   **Frontend Components:** (From `client/src`, `client/index.html` directory). These would be the user interface that sends queries to the backend.
 *   **Backend Services:**
     *   **Node.js Server (`client/api/chat.js`):** The main entry point for your backend, which presumably exposes an API endpoint that calls `chatWithMandai`.
     *   **AI/Data Retrieval Logic (`client/api/chat.js`, `client/api/ingest.js`):**
