@@ -2,7 +2,7 @@
 Welcome to the Mandai Wildlife Consultant AI! This project is an intelligent, RAG-powered chatbot ("Barnaby") designed to provide wildlife insights and guidance for Mandai Wildlife Reserve.
 
 1. **Live Application**:
-You can interact with Barnaby live at:
+You can interact with Barnaby live at, turn on volume for better experience:
 https://mandai-ai-consultant-copy.onrender.com/
 
 2. **Project Documentation**:
