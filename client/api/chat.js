@@ -102,19 +102,24 @@ export async function chatWithMandai(userId,query, history, attempt = 1, userPro
     return finalAnswer;
 
   } catch (err) {
-    // If it's a 429 error and we haven't tried too many times
+    // 1. Handle Rate Limit Retries
     if (err.status === 429 && attempt <= 3) {
-      console.log(`Rate limit hit! Waiting ${attempt * 10} seconds to retry...`);
-      await sleep(attempt * 10000); // Wait 10s, 20s, 30s
-      
-      // FIX: Add userId and userProfile here so the retry has the full context
-      return chatWithMandai(userId, query, history, attempt + 1, userProfile);
+        console.log(`Rate limit hit! Waiting ${attempt * 10} seconds to retry...`);
+        await sleep(attempt * 10000); 
+        return chatWithMandai(userId, query, history, attempt + 1, userProfile);
     }
     
     console.error("DEBUG: Permanent error:", err);
-    return "The park is currently experiencing high visitor traffic. Please ask me again in a few seconds!";
-}
-}
+
+    // 2. Distinguish the final user message based on the error type
+    if (err.status === 429) {
+        // True quota/traffic issue after 3 failed retries
+        return "The park is currently experiencing high visitor traffic. Please ask me again in a few seconds!";
+    } else {
+        // System, network, or authentication issues
+        return "The AI consultant is currently facing connection issues. Please try again later.";
+    }
+}}
 
 const userQuery = process.argv[2] || "What is Mandai?";
 // chatWithMandai(userQuery);
