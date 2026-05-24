@@ -26,16 +26,26 @@ Before running the project locally, ensure you have:
 
 * **Google AI Studio API Key:** [Get one here](https://aistudio.google.com/app/apikey)
 
-* **Pinecone Account:** Create a free index at [pinecone.io](https://www.pinecone.io/).
+* **Pinecone Account:** Create a free index at [pinecone.io](https://www.pinecone.io/). 
 
-* **Environment Variables:** Create a `.env` file in the **root directory** with the following content:
+    Steps: 
+    1. Create an account.
+    2. Navigate to "Default Project/Database/ Indexes
+    3. Click create Index. Set the following:
+        - Vector type : Dense
+        - Dimension :3072
+        - Metric : cosine
+        - Cloud Provider : AWS
+        - Region: us-east-1
+        - capacity_mode: On demand
+
+* **Environment Variables:** Create a `.env` file in the **root directory**. Do not wrap quotes around key. Add the following content:
 
 ```text
 GOOGLE_API_KEY=your_key_here
 PINECONE_API_KEY=your_key_here
 PINECONE_INDEX=your_index_name
 ```
-
 
 ```bash
 -- Installation
