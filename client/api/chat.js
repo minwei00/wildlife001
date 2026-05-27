@@ -15,14 +15,20 @@ function saveSession(userId, profile, lastSummary) {
     sessions = JSON.parse(fs.readFileSync(SESSIONS_FILE, 'utf8'));
   }
   sessions[userId] = { profile, lastSummary, timestamp: Date.now() };
+  console.log("DEBUG saveSession", { userId, lastSummary, file: SESSIONS_FILE });
   fs.writeFileSync(SESSIONS_FILE, JSON.stringify(sessions, null, 2));
 }
 
 // Helper to get session
 function getSession(userId) {
-  if (!fs.existsSync(SESSIONS_FILE)) return null;
+  if (!fs.existsSync(SESSIONS_FILE)) {
+    console.log("DEBUG getSession: no session file", { file: SESSIONS_FILE });
+    return null;
+  }
   const sessions = JSON.parse(fs.readFileSync(SESSIONS_FILE, 'utf8'));
-  return sessions[userId] || null;
+  const session = sessions[userId] || null;
+  console.log("DEBUG getSession", { userId, session, file: SESSIONS_FILE });
+  return session;
 }
 
 
@@ -43,8 +49,8 @@ export async function chatWithMandai(userId,query, history, attempt = 1, userPro
   //   greeting = "System Instruction: You are a Mandai Wildlife Consultant. Answer the following question directly and concisely without conversational filler.";
   // }
   if (session && (!history || history.length === 0)) {
-  greeting = `System Instruction: You are a Mandai Wildlife Consultant. The user has visited before and last discussed: "${session.lastSummary}". 
-  Use this only to improve the response, and do not repeat it again unless it is directly relevant to the current question.`;
+  greeting = `System Instruction: You are a Mandai Wildlife Consultant. The user has visited before and previously asked about: "${session.lastSummary}". 
+  ACTION: You MUST start your response by warmly acknowledging that the user has returned and briefly referencing the previous topic to make them feel welcome. Then, answer their current question.`;
 } else {
   greeting = "System Instruction: You are a Mandai Wildlife Consultant. Answer the following question directly and concisely without conversational filler.";
 }
