@@ -6,7 +6,8 @@ import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 import { PineconeStore } from "@langchain/pinecone";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import fs from 'fs';
-const SESSIONS_FILE = './user_sessions.json';
+// const SESSIONS_FILE = './user_sessions.json';
+const SESSIONS_FILE = path.join(__dirname, 'user_sessions.json');
 
 function saveSession(userId, profile, lastSummary) {
   let sessions = {};
