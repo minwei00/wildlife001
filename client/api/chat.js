@@ -26,7 +26,6 @@ function getSession(userId) {
 }
 
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
