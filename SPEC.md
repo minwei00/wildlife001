@@ -12,7 +12,10 @@ The application follows a client-server architecture with a Node.js backend hand
         *   `chat.js`: Handles incoming user queries, retrieves relevant context from Pinecone, constructs a prompt, interacts with the Google Generative AI LLM, and manages user sessions.
 *   **Database(s):**
     *   **Pinecone:** A vector database used for storing and retrieving vector embeddings of your Mandai Wildlife data.
-    *   **Local JSON File (`user_sessions.json`):** Used to store user session information, including a summary of the last conversation, to provide continuity for returning users.
+    *   **Local JSON File (`user_sessions.json`):** Used to store user session information, including a summary of the last conversation, to provide continuity for returning users. This implementation functions correctly in a local environment but is incompatible with production hosting platform that is used -Render as it utilizes ephemeral, read-only file systems, which automatically wipe local file changes upon server restarts for security and stability. 
+
+        **Future Work:** Transitioning this component to a cloud-native database (e.g., Redis or MongoDB) is a planned future update. This will replace the file-based system with an industry-standard persistent storage solution, ensuring that user session data survives server restarts and allowing the application to scale securely.
+
 *   **External APIs or Services Used:**
     *   **Google Generative AI API:** Used for both generating embeddings (`models/gemini-embedding-2`) and for the main chat completions (`gemini-2.5-flash`).
     *   **Pinecone API:** Used for interacting with your Pinecone vector index.
