@@ -68,9 +68,9 @@ h1 {
   flex-direction: column;
   gap: 15px;
   padding-right: 10px;
-  /* Ensure this has space to grow */
   min-height: 0; 
 }
+
 
 .bear-and-response-row {
   display: flex;
@@ -100,7 +100,9 @@ h1 {
   color: white;
   max-width: 500px;
 }
-
+.chat-bubble::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
 /* Specific fix for bot bubble in the active row */
 .bear-and-response-row .chat-bubble.bot {
   min-width: 200px; 
