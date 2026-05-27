@@ -7,88 +7,75 @@ function App() {
   const [messages, setMessages] = useState([
     { id: 1, sender: 'bot', text: 'Hello! I am Barnaby! Your Mandai Wildlife Guide. How can I help you today?' }
   ]);
-  const botSound = useRef(new Audio('/bot-reply.mp4'));
-  useEffect(() => {
-  const lastMessage = messages[messages.length - 1];
-  if (lastMessage && lastMessage.sender === 'bot' && messages.length > 1) {
-    botSound.current.play().catch(e => console.error("Audio playback failed:", e));
-  }
-  }, [messages]);
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState("");
-
- const callGemini = async (userInput) => {
-  if (!userInput.trim()) return;
-
-  const newUserMessage = { id: Date.now(), sender: 'user', text: userInput };
   
-  // Update state using functional approach
-  setMessages(prev => [...prev, newUserMessage]);
-  setInput("");
-  setLoading(true);
+  // Ref for auto-scrolling
+  const messagesEndRef = useRef(null);
+  const botSound = useRef(new Audio('/bot-reply.mp4'));
 
-  try {
-      // Use the dynamic URL to handle local vs production environments
-      const BACKEND_URL = import.meta.env.MODE === 'development' 
-        ? "http://localhost:3000" 
-        : ""; 
+  // Auto-scroll logic
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  // Audio logic
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage && lastMessage.sender === 'bot' && messages.length > 1) {
+      botSound.current.play().catch(e => console.error("Audio playback failed:", e));
+    }
+  }, [messages]);
+
+  const callGemini = async (userInput) => {
+    if (!userInput.trim()) return;
+
+    const newUserMessage = { id: Date.now(), sender: 'user', text: userInput };
+    setMessages(prev => [...prev, newUserMessage]);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const BACKEND_URL = import.meta.env.MODE === 'development' ? "http://localhost:3000" : ""; 
       const res = await fetch(`${BACKEND_URL}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: userInput, userId: "guest_user" }),
       });
-
       const data = await res.json();
-      console.log("Data received from backend:", data);
-
-      setMessages(prev => [
-        ...prev, 
-        { 
-          id: Date.now() + Math.random(), 
-          sender: 'bot', 
-          text: data.answer 
-        }
-      ]);
-      
+      setMessages(prev => [...prev, { id: Date.now() + Math.random(), sender: 'bot', text: data.answer }]);
     } catch (err) {
-      console.error("Fetch error:", err);
-      setMessages(prev => [
-        ...prev, 
-        { id: Date.now(), sender: 'bot', text: "Sorry, Barnaby is having trouble connecting to the server!" }
-      ]);
+      setMessages(prev => [...prev, { id: Date.now(), sender: 'bot', text: "Sorry, Barnaby is having trouble connecting to the server!" }]);
     } finally {
       setLoading(false);
     }
   };
 
-
   return (
     <div className="main-app-container">
       <h1>Ask Barnaby!</h1>
-
-  
+      
       <div className="main-chat-layout">
-        {/* Scrollable History: Show everything except the absolute latest message */}
         <div className="chat-history-container">
-          {messages.slice(0, -1).map((msg) => (
-            <div key={msg.id} className={`chat-bubble ${msg.sender}`}>
-              <ReactMarkdown>{msg.text}</ReactMarkdown>
+          {messages.map((msg) => (
+            <div key={msg.id} className={msg.sender === 'bot' ? "bear-and-response-row" : "user-message-row"}>
+              {msg.sender === 'bot' && (
+                <div className="bear-avatar-full">
+                  <RobotCanvas />
+                </div>
+              )}
+              <div className={`chat-bubble ${msg.sender}`}>
+                <ReactMarkdown>{msg.text}</ReactMarkdown>
+              </div>
             </div>
           ))}
+          {/* This empty div is the anchor for scrolling */}
+          <div ref={messagesEndRef} />
         </div>
-
-        {/* Latest Message Bear Row: Only shows if the last message is from the bot */}
-        {messages.length > 0 && messages[messages.length - 1].sender === 'bot' && (
-          <div className="bear-and-response-row">
-            <div className="bear-avatar-full">
-              <RobotCanvas />
-            </div>
-            <div className="chat-bubble bot">
-              <ReactMarkdown>{messages[messages.length - 1].text}</ReactMarkdown>
-            </div>
-          </div>
-        )}
       </div>
 
       <div className="input-area-wrapper">
@@ -100,12 +87,9 @@ function App() {
             placeholder={loading ? "Barnaby is thinking..." : "Ask me anything..."}
             disabled={loading}
           />
-          <button 
-          onClick={() => callGemini(input)} 
-          disabled={loading}
-        >
-          {loading ? "Barnaby is thinking..." : "Ask Barnaby!"}
-        </button>
+          <button onClick={() => callGemini(input)} disabled={loading}>
+            {loading ? "Thinking..." : "Ask Barnaby!"}
+          </button>
         </div>
       </div>
     </div>

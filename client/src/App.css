@@ -69,8 +69,12 @@ h1 {
   gap: 15px;
   padding-right: 10px;
   min-height: 0; 
+  scrollbar-width: none;
 }
 
+.chat-history-container::-webkit-scrollbar {
+  display: none; 
+}
 
 .bear-and-response-row {
   display: flex;
@@ -90,7 +94,12 @@ h1 {
   width: 100% !important;
   height: 100% !important;
 }
-
+.user-message-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
 /* Chat bubble styling */
 .chat-bubble {
   background: rgba(255, 255, 255, 0.2);
