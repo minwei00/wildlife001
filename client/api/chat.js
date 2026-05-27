@@ -36,12 +36,18 @@ export async function chatWithMandai(userId,query, history, attempt = 1, userPro
   
   // GREETING LOGIC: If it's a returning user, inject the summary into the prompt
   let greeting = "";
+  // if (session && (!history || history.length === 0)) {
+  //   greeting = `System Instruction: You are a Mandai Wildlife Consultant. The user has visited before and last discussed: "${session.lastSummary}". 
+  //   Greet them warmly acknowledging this, then answer the following question.`;
+  // } else {
+  //   greeting = "System Instruction: You are a Mandai Wildlife Consultant. Answer the following question directly and concisely without conversational filler.";
+  // }
   if (session && (!history || history.length === 0)) {
-    greeting = `System Instruction: You are a Mandai Wildlife Consultant. The user has visited before and last discussed: "${session.lastSummary}". 
-    Greet them warmly acknowledging this, then answer the following question.`;
-  } else {
-    greeting = "System Instruction: You are a Mandai Wildlife Consultant. Answer the following question directly and concisely without conversational filler.";
-  }
+  greeting = `System Instruction: You are a Mandai Wildlife Consultant. The user has visited before and last discussed: "${session.lastSummary}". 
+  Use this only to improve the response, and do not repeat it again unless it is directly relevant to the current question.`;
+} else {
+  greeting = "System Instruction: You are a Mandai Wildlife Consultant. Answer the following question directly and concisely without conversational filler.";
+}
   try {
     const pinecone = new Pinecone({ apiKey: process.env.PINECONE_API_KEY });
     const index = pinecone.Index(process.env.PINECONE_INDEX);
